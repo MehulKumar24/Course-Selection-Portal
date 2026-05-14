@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Selection Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="home">
+        <h1>Course Selection Portal</h1>
+        <button id="themeToggle" class="theme-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <!-- Search/Filter Box -->
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchBox" 
+                    placeholder="Search courses by name or code..." 
+                    onkeyup="filterCourses()"
+                >
+            </div>
+
+            <!-- Course Filter Buttons -->
+            <div class="filter-panel">
+                <div class="category-filters">
+                    <button class="filter-btn active" onclick="setCategoryFilter('All', this)">All</button>
+                    <button class="filter-btn" onclick="setCategoryFilter('Easy', this)">Beginner</button>
+                    <button class="filter-btn" onclick="setCategoryFilter('Medium', this)">Intermediate</button>
+                    <button class="filter-btn" onclick="setCategoryFilter('Hard', this)">Advanced</button>
+                </div>
+                <button id="savedOnlyBtn" class="saved-toggle-btn" onclick="toggleSavedOnly()">Show Saved Courses Only</button>
+            </div>
+
+            <!-- Selected Course Display -->
+            <div id="selectedCourse" class="selected-course-container">
+                <div class="selection-header">
+                    <h2>Selected Course</h2>
+                    <!-- Clear Button -->
+                    <button class="clear-btn" onclick="clearSelection()">Clear</button>
+                </div>
+                <div id="courseDisplay" class="course-display">
+                    <p>No course selected yet. Click "Select" on a course below.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Listing Section -->
+        <section id="courses" class="courses-section">
+            <h2>Available Courses</h2>
+            <p class="course-count">Total Courses: <span id="courseCount">0</span> | Matching: <span id="matchCount">0</span></p>
+            <div class="courses-grid">
+                <!-- Course 1 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Introduction to Web Development</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> WEB101</p>
+                    <div class="course-meta">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="credits">3 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Mon, Wed, Fri (10-11 AM)</p>
+                    <p class="description">Learn the basics of HTML, CSS, and JavaScript to build modern websites.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Dr. Michael Richardson</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Introduction to Web Development', 'WEB101', 'Learn the basics of HTML, CSS, and JavaScript to build modern websites.', 'Dr. Michael Richardson', '3', 'Mon, Wed, Fri (10-11 AM)', 'None', 'Build responsive websites, create interactive elements, master web design patterns')">Select</button>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Data Science Fundamentals</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> DS201</p>
+                    <div class="course-meta">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="credits">4 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Tue, Thu (2-3:30 PM)</p>
+                    <p class="description">Explore data analysis, visualization, and machine learning with Python.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Prof. Dr. Rajesh Kumar</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Data Science Fundamentals', 'DS201', 'Explore data analysis, visualization, and machine learning with Python.', 'Prof. Dr. Rajesh Kumar', '4', 'Tue, Thu (2-3:30 PM)', 'Basic Python programming', 'Master data analysis, create ML models, build dashboards with Tableau')">Select</button>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Mobile App Development</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> MOB301</p>
+                    <div class="course-meta">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="credits">4 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Mon, Wed (1-2:30 PM)</p>
+                    <p class="description">Build responsive mobile applications using React Native and JavaScript.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Dr. Emily Thompson</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Mobile App Development', 'MOB301', 'Build responsive mobile applications using React Native and JavaScript.', 'Dr. Emily Thompson', '4', 'Mon, Wed (1-2:30 PM)', 'JavaScript fundamentals, React basics', 'Develop iOS/Android apps, implement native features, publish to app stores')">Select</button>
+                </div>
+
+                <!-- Course 4 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Cloud Computing Essentials</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> CLOUD401</p>
+                    <div class="course-meta">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="credits">3 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Fri (3-5 PM)</p>
+                    <p class="description">Master cloud platforms like AWS, Azure, and Google Cloud.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Prof. James Harrison</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Cloud Computing Essentials', 'CLOUD401', 'Master cloud platforms like AWS, Azure, and Google Cloud.', 'Prof. James Harrison', '3', 'Fri (3-5 PM)', 'Networking basics, Linux fundamentals', 'Deploy applications on cloud, manage cloud resources, optimize costs')">Select</button>
+                </div>
+
+                <!-- Course 5 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Advanced Python Programming</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> PY501</p>
+                    <div class="course-meta">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="credits">4 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Tue, Thu (4-5:30 PM)</p>
+                    <p class="description">Master advanced Python concepts including OOP, decorators, and async programming.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Dr. Patricia Wilson</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Advanced Python Programming', 'PY501', 'Master advanced Python concepts including OOP, decorators, and async programming.', 'Dr. Patricia Wilson', '4', 'Tue, Thu (4-5:30 PM)', 'Basic Python knowledge required', 'Write clean code, build frameworks, develop production-level applications')">Select</button>
+                </div>
+
+                <!-- Course 6 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Database Design & SQL</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> DB301</p>
+                    <div class="course-meta">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="credits">3 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Mon, Wed (11 AM-12:30 PM)</p>
+                    <p class="description">Learn database architecture, SQL queries, and optimization techniques.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Prof. Robert Blackwell</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Database Design & SQL', 'DB301', 'Learn database architecture, SQL queries, and optimization techniques.', 'Prof. Robert Blackwell', '3', 'Mon, Wed (11 AM-12:30 PM)', 'Basic programming knowledge', 'Design databases, write optimized queries, implement security measures')">Select</button>
+                </div>
+
+                <!-- Course 7 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Cybersecurity Fundamentals</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> SEC401</p>
+                    <div class="course-meta">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="credits">4 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Wed, Fri (1-2:30 PM)</p>
+                    <p class="description">Understand security threats, encryption, and best practices in cybersecurity.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Dr. James Mitchell</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Cybersecurity Fundamentals', 'SEC401', 'Understand security threats, encryption, and best practices in cybersecurity.', 'Dr. James Mitchell', '4', 'Wed, Fri (1-2:30 PM)', 'Networking fundamentals, Operating systems', 'Identify threats, implement security protocols, perform risk assessments')">Select</button>
+                </div>
+
+                <!-- Course 8 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>UI/UX Design Principles</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> DES201</p>
+                    <div class="course-meta">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="credits">3 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Tue (10 AM-12 PM)</p>
+                    <p class="description">Learn user interface and user experience design using Figma and modern tools.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Ms. Lisa Anderson</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'UI/UX Design Principles', 'DES201', 'Learn user interface and user experience design using Figma and modern tools.', 'Ms. Lisa Anderson', '3', 'Tue (10 AM-12 PM)', 'Basic design knowledge', 'Create wireframes, design prototypes, conduct user research')">Select</button>
+                </div>
+
+                <!-- Course 9 -->
+                <div class="course-card">
+                    <div class="card-header">
+                        <h3>Artificial Intelligence Basics</h3>
+                        <button class="fav-btn" onclick="toggleFavorite(event)">Save</button>
+                    </div>
+                    <p class="course-code"><strong>Code:</strong> AI501</p>
+                    <div class="course-meta">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="credits">4 Credits</span>
+                    </div>
+                    <p class="schedule"><strong>Schedule:</strong> Thu (2-3:30 PM)</p>
+                    <p class="description">Introduction to machine learning, neural networks, and AI applications.</p>
+                    <p class="instructor"><strong>Instructor:</strong> Dr. Vikram Patel</p>
+                    <button class="select-btn" onclick="selectCourse(this, 'Artificial Intelligence Basics', 'AI501', 'Introduction to machine learning, neural networks, and AI applications.', 'Dr. Vikram Patel', '4', 'Thu (2-3:30 PM)', 'Python programming, Mathematics (Calculus, Linear Algebra)', 'Build ML models, train neural networks, deploy AI applications')">Select</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Comparison Section -->
+        <section class="info-section">
+            <h2>Course Comparison</h2>
+            <p>Use this quick table to compare popular choices before selecting a course.</p>
+
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Code</th>
+                            <th>Level</th>
+                            <th>Credits</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Introduction to Web Development</td>
+                            <td>WEB101</td>
+                            <td>Beginner</td>
+                            <td>3</td>
+                            <td>Students starting with websites</td>
+                        </tr>
+                        <tr>
+                            <td>Data Science Fundamentals</td>
+                            <td>DS201</td>
+                            <td>Intermediate</td>
+                            <td>4</td>
+                            <td>Students interested in data and Python</td>
+                        </tr>
+                        <tr>
+                            <td>Cybersecurity Fundamentals</td>
+                            <td>SEC401</td>
+                            <td>Advanced</td>
+                            <td>4</td>
+                            <td>Students interested in security careers</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Announcement Section -->
+        <section class="info-section announcement-section">
+            <h2>Student Announcement</h2>
+            <p>
+                Course registration for the Spring 2026 semester is open. Students should review
+                prerequisites before selecting advanced courses.
+            </p>
+            <blockquote>
+                "The search and course cards made it easier for me to compare classes before choosing one."
+            </blockquote>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="info-section">
+            <h2>About This Portal</h2>
+            <p>
+                This course selection portal was created as a student project for browsing
+                computer science courses. Students can search courses, view basic details,
+                save courses, and select a course using JavaScript.
+            </p>
+
+            <div class="info-box">
+                <h3>Legal Disclaimer</h3>
+                <p>
+                    This website is made only for educational assignment purposes. The course
+                    fees, instructors, schedules, payment form, and college details are sample
+                    data and are not connected to a real university or payment system.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="info-section">
+            <h2>Contact & Feedback</h2>
+            <p>
+                Have a suggestion about this portal? Send simple feedback using the form below.
+            </p>
+
+            <div class="contact-details">
+                <p><strong>Department:</strong> Department of Computer Science</p>
+                <p><strong>Email:</strong> csdepartment@example.edu</p>
+                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Office:</strong> Building A, Room 105</p>
+            </div>
+
+            <form id="feedbackForm" class="feedback-form" onsubmit="submitFeedback(event)">
+                <div class="form-group">
+                    <label for="feedbackName">Your Name:</label>
+                    <input type="text" id="feedbackName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedbackEmail">Email:</label>
+                    <input type="email" id="feedbackEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedbackType">Feedback Type:</label>
+                    <select id="feedbackType" required>
+                        <option value="">Choose one</option>
+                        <option value="Design">Design</option>
+                        <option value="Course Information">Course Information</option>
+                        <option value="Bug Report">Bug Report</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedbackMessage">Message:</label>
+                    <textarea id="feedbackMessage" rows="5" required></textarea>
+                </div>
+
+                <button class="confirm-btn feedback-btn" type="submit">Submit Feedback</button>
+                <p id="feedbackResult" class="feedback-result"></p>
+            </form>
+        </section>
+    </main>
+
+    <!-- Course Details Modal -->
+    <div id="courseDetailsModal" class="modal">
+        <div class="modal-content course-details-content">
+            <span class="close-modal" onclick="closeCourseDetails()">&times;</span>
+            <div id="courseDetailsBody">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+            <h2>Billing & Checkout</h2>
+            
+            <!-- Course Summary -->
+            <div class="checkout-section">
+                <h3>Course Summary</h3>
+                <div id="checkoutSummary" class="summary-box">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Student Information -->
+            <div class="checkout-section">
+                <h3>Student Information</h3>
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="studentName">Full Name:</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email:</label>
+                        <input type="email" id="studentEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentId">Student ID:</label>
+                        <input type="text" id="studentId" required>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Billing Information -->
+            <div class="checkout-section">
+                <h3>Billing Information</h3>
+                <form id="billingForm">
+                    <div class="form-group">
+                        <label for="cardName">Cardholder Name:</label>
+                        <input type="text" id="cardName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number:</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="expiry">Expiry Date:</label>
+                            <input type="text" id="expiry" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group half">
+                            <label for="cvv">CVV:</label>
+                            <input type="text" id="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Price Summary -->
+            <div class="price-summary">
+                <div class="price-row">
+                    <span>Course Fee:</span>
+                    <span id="coursePrice">$0.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Tax (10%):</span>
+                    <span id="taxPrice">$0.00</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total:</span>
+                    <span id="totalPrice">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="checkout-actions">
+                <button class="cancel-btn" onclick="closeCheckout()">Cancel</button>
+                <button class="confirm-btn" onclick="completeCheckout()">Complete Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Course Selection Portal. All rights reserved. | Department of Computer Science</p>
+        <p>Made by Mehul Kumar</p>
+    </footer>
+
+    <button id="backToTopBtn" class="back-to-top" onclick="scrollToTop()">Top</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
